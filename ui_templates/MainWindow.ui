@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1280</width>
+    <height>720</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>1280</width>
+    <height>720</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>McDonalds Desktop App</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1283</width>
+      <height>600</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_news">
+     <attribute name="title">
+      <string>Новинки</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_burgers">
+     <attribute name="title">
+      <string>Бургеры</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_rolls">
+     <attribute name="title">
+      <string>Роллы</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_drinks">
+     <attribute name="title">
+      <string>Напитки</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_sauces">
+     <attribute name="title">
+      <string>Соусы</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_snacks">
+     <attribute name="title">
+      <string>Закуски</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_kits">
+     <attribute name="title">
+      <string>Наборы</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_alcohol">
+     <attribute name="title">
+      <string>Алкоголь</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_desserts">
+     <attribute name="title">
+      <string>Десерты</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>1100</x>
+      <y>635</y>
+      <width>150</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Корзина</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1280</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Панель администратора</string>
+    </property>
+    <addaction name="productManagementAction"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <action name="productManagementAction">
+   <property name="text">
+    <string>Управление товарами</string>
+   </property>
+  </action>
+  <action name="action123">
+   <property name="text">
+    <string>123</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
