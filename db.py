@@ -39,10 +39,10 @@ class ProductsTable(Database):
                             FOREIGN KEY (type) REFERENCES product_types(id))
                         """)
 
-    def add(self, photo, title, description, type, price, date):
-        self.cur.execute(f"""INSERT INTO products(photo, title, description, type, price, date)
-                            VALUES({photo, title, description, type, price, datetime.datetime.now()})
-                        """)
+    def add(self, photo, title, description, type, price, date=''):
+        self.cur.execute("""INSERT INTO products(photo, title, description, type, price, date)
+                            VALUES(?, ?, ?, ?, ?, ?)
+                        """, (photo, title, description, type, price, datetime.datetime.now()))
         self.con.commit()
 
 
@@ -63,8 +63,7 @@ class ProductTypesTable(Database):
         self.con.commit()
 
 
-if __name__ == '__main__':
-    products = ProductsTable()
-    products.create()
-    ingredients = ProductTypesTable()
-    ingredients.create()
+products = ProductsTable()
+product_types = ProductTypesTable()
+products.create()
+product_types.create()
