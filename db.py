@@ -57,10 +57,18 @@ class ProductTypesTable(Database):
                         """)
 
     def add(self, title):
-        self.cur.execute(f"""INSERT INTO proudct_types (title)
-                            VALUES({title})
-                        """)
+        self.cur.execute("""INSERT INTO product_types (title)
+                            VALUES(?)
+                        """, (title,))
         self.con.commit()
+
+    def getData(self):
+        return [data for data in self.cur.execute('SELECT * FROM product_types').fetchall()]
+
+
+class ShoppingCartTable(Database):
+    def __init__(self):
+        super().__init__('shopping_cart')
 
 
 products = ProductsTable()
