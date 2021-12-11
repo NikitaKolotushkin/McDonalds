@@ -10,7 +10,19 @@ from AddCategoryDialog import AddCategoryDialog
 
 
 class AdministratorPanel(QDialog):
+    """
+    Administrator panel class, inherits from :class: QDialog
+    Creates a administrator panel window
+
+    :param parent: Responsible for assigning the parent window, defaults to None
+    :type parent: class
+    """
+
     def __init__(self, parent=None):
+        """
+        Constructor method
+        """
+
         super().__init__()
         uic.loadUi('ui_templates/AdministratorPanel.ui', self)
 
@@ -20,10 +32,24 @@ class AdministratorPanel(QDialog):
         self.addCategoryButton.clicked.connect(self.addCategory)
         self.cancelButton.clicked.connect(self.close)
 
-    def addCategory(self):
+    def addCategory(self) -> None:
+        """
+        Method that calls the dialog window for adding a product category (:class: AddCategoryDialog)
+
+        :return: None
+        :rtype: None
+        """
+
         add = AddCategoryDialog(self)
         add.exec_()
 
-    def addProduct(self):
+    def addProduct(self) -> None:
+        """
+        Method that calls the dialog window for adding a product (:class: AddProductDialog)
+
+        :return: None
+        :rtype: None
+        """
+
         add = AddProductDialog(self)
         add.exec_()
