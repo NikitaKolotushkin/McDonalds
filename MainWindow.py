@@ -12,6 +12,9 @@ from ShoppingCart import ShoppingCart
 
 
 class MainWindow(QMainWindow):
+    '''
+
+    '''
     def __init__(self):
         super().__init__()
         uic.loadUi('ui_templates/MainWindow.ui', self)
