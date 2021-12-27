@@ -51,29 +51,6 @@
     <string>Добавить Товар</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="deleteProductButton">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>540</y>
-     <width>150</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Удалить товар</string>
-   </property>
-  </widget>
-  <widget class="QTableView" name="tableView">
-   <property name="geometry">
-    <rect>
-     <x>5</x>
-     <y>5</y>
-     <width>790</width>
-     <height>450</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="addCategoryButton">
    <property name="geometry">
     <rect>
@@ -86,6 +63,41 @@
    <property name="text">
     <string>Добавить Категорию</string>
    </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>5</y>
+     <width>790</width>
+     <height>450</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Название</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Описание</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Категория Товара</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Цена, руб.</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>

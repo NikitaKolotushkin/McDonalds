@@ -64,7 +64,25 @@
     <string>Очистить корзину</string>
    </property>
   </widget>
-  <widget class="QTableView" name="tableView">
+  <widget class="QLabel" name="totalPrice">
+   <property name="geometry">
+    <rect>
+     <x>575</x>
+     <y>482</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Итого:</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
      <x>5</x>
