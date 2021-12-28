@@ -56,16 +56,17 @@ class ShoppingCart(QDialog):
         """
 
         """
+        if len(cart.getData()) > 0:
 
-        with open('receipt.txt', mode='w+', encoding='utf8') as f:
-            price = 0
-            f.write(f'\tЧЕК\n{datetime.datetime.now()}\n\n')
-            for data in cart.getData():
-                f.write(f'{data[1]} x {data[2]} - {data[2] * data[3]} руб.\n')
-                price += data[3] * data[2]
-            f.write(f'\n\tИтого: {float(price)} руб.')
-            f.close()
-        self.showOrderMessage()
+            with open('receipt.txt', mode='w+', encoding='utf8') as f:
+                price = 0
+                f.write(f'\tЧЕК\n{datetime.datetime.now()}\n\n')
+                for data in cart.getData():
+                    f.write(f'{data[1]} x {data[2]} - {data[2] * data[3]} руб.\n')
+                    price += data[3] * data[2]
+                f.write(f'\n\tИтого: {float(price)} руб.')
+                f.close()
+            self.showOrderMessage()
 
     def showOrderMessage(self) -> None:
         msg = QMessageBox()
