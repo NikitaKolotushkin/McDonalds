@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import functools
 import sys
 
 from PyQt5.QtCore import Qt
@@ -37,9 +38,21 @@ class MainWindow(QMainWindow):
         self.createTabs()
 
     def ProductDialog(self, item):
-        product_data = products.getDataByTitle(item.text())
 
-        select = SelectProductDialog(self, product_data[1], product_data[2])
+        product_data = products.getDataByTitle(item.text())
+        product_title = product_data[2]
+        image = product_data[1]
+        description = product_data[3]
+        price = product_data[5]
+
+        select = SelectProductDialog(self, image, description, price)
+
+        def addToCart():
+            cart.add(product_title, select.spinBox.value(), price)
+            select.close()
+
+        select.addProductButton.clicked.connect(addToCart)
+
         select.exec_()
 
     def createTabs(self) -> None:
