@@ -23,7 +23,7 @@ class SelectProductDialog(QDialog):
     :type description: str
     """
 
-    def __init__(self, parent=None, image: bytes = None, description: str = None):
+    def __init__(self, parent=None, image: bytes = None, description: str = None, price: int = None):
         """
         Constructor method
         """
@@ -31,6 +31,7 @@ class SelectProductDialog(QDialog):
         super().__init__()
         uic.loadUi('ui_templates/SelectProductDialog.ui', self)
         self.setWindowIcon(QtGui.QIcon('src/shopping-cart.png'))
+        self.cancelButton.clicked.connect(self.close)
 
         self.pic = QtGui.QPixmap()
         self.pic.loadFromData(image)
