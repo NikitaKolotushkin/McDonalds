@@ -25,12 +25,16 @@ class Database:
 
     :param db_name: The name of the database to work with
     :type db_name: str
+    :param table_name: The name of table
+    :type table_name: str
     """
 
-    def __init__(self, db_name: str) -> None:
+    def __init__(self, db_name: str, table_name: str) -> None:
         """
         Constructor method
         """
+
+        self.table_name = table_name
 
         self.con = sqlite3.connect(r'databases/' + f'{db_name}.db')
         self.cur = self.con.cursor()
@@ -58,6 +62,35 @@ class Database:
 
         pass
 
+    def getValuesFromColumn(self, column: str) -> list:
+        """
+        An empty stub method to get data from the selected column
+
+        :param column:
+        :type column: str
+
+        :return: List of data from a selected column
+        :rtype: list
+        """
+
+        return [data for data in self.cur.execute(f'SELECT {column} FROM {self.table_name}').fetchall()]
+
+    def getProductsByCategory(self, category_: str) -> list:
+        """
+
+        """
+
+        return [data for data in self.cur.execute(
+            f'SELECT title FROM {self.table_name} WHERE type_=?', (category_,)
+        ).fetchall()]
+
+    def getDataByTitle(self, title: str) -> list:
+        """
+
+        """
+
+        return [data for data in self.cur.execute(f'SELECT * FROM {self.table_name} WHERE title=?', (title,)).fetchone()]
+
     def getData(self) -> list:
         """
         An empty stub method to get all data from the selected table
@@ -66,7 +99,15 @@ class Database:
         :rtype: list
         """
 
-        pass
+        return [data for data in self.cur.execute(f'SELECT * FROM {self.table_name}').fetchall()]
+
+    def clearTable(self) -> None:
+        """
+
+        """
+
+        self.cur.execute(f'DELETE FROM {self.table_name}')
+        self.con.commit()
 
 
 class ProductsTable(Database):
@@ -79,7 +120,7 @@ class ProductsTable(Database):
         Constructor method
         """
 
-        super().__init__('products')
+        super().__init__('products', 'products')
 
     def create(self):
         """
@@ -89,18 +130,18 @@ class ProductsTable(Database):
         :rtype: None
         """
 
-        self.cur.execute("""CREATE TABLE IF NOT EXISTS products (
+        self.cur.execute(f"""CREATE TABLE IF NOT EXISTS {self.table_name} (
                             product_id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                             photo BLOB NOT NULL,
                             title TEXT NOT NULL,
                             description TEXT NOT NULL,
-                            type INTEGER NOT NULL,
+                            type_ TEXT NOT NULL,
                             price INTEGER NOT NULL,
                             date TEXT NOT NULL,
-                            FOREIGN KEY (type) REFERENCES product_types(id))
+                            FOREIGN KEY (type_) REFERENCES product_types(id))
                         """)
 
-    def add(self, photo: bytes, title: str, description: str, type_: int, price: float):
+    def add(self, photo: bytes, title: str, description: str, type_: str, price: float):
         """
         Adds one item to the products table
 
@@ -111,7 +152,7 @@ class ProductsTable(Database):
         :param description: Product description
         :type description: str
         :param type_: Product type (selected from the product_types table)
-        :type type_: int
+        :type type_: str
         :param price: Product price
         :type price: float
 
@@ -119,9 +160,9 @@ class ProductsTable(Database):
         :rtype: None
         """
 
-        self.cur.execute("""INSERT INTO products(photo, title, description, type, price, date)
-                            VALUES(?, ?, ?, ?, ?, ?)
-                        """, (photo, title, description, type_, price, datetime.datetime.now()))
+        self.cur.execute("""
+        INSERT INTO products(photo, title, description, type_, price, date) VALUES(?, ?, ?, ?, ?, ?)
+        """, (photo, title, description, type_, price, datetime.datetime.now()))
         self.con.commit()
 
 
@@ -135,7 +176,7 @@ class ProductTypesTable(Database):
         Constructor method
         """
 
-        super().__init__('products')
+        super().__init__('products', 'product_types')
 
     def create(self):
         """
@@ -145,10 +186,9 @@ class ProductTypesTable(Database):
         :rtype: None
         """
 
-        self.cur.execute("""CREATE TABLE IF NOT EXISTS product_types (
+        self.cur.execute(f"""CREATE TABLE IF NOT EXISTS {self.table_name} (
                             id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-                            title TEXT NOT NULL)
-                        """)
+                            title TEXT NOT NULL)""")
 
     def add(self, title: str):
         """
@@ -162,19 +202,22 @@ class ProductTypesTable(Database):
         """
 
         self.cur.execute("""INSERT INTO product_types (title)
-                            VALUES(?)
-                        """, (title,))
+                            VALUES(?)""", (title,))
         self.con.commit()
 
-    def getData(self):
-        """
-        Returns the entire list of product categories
-
-        :return: list of product categories
-        :rtype: list
+    def getCategoryId(self, category):
         """
 
-        return [data for data in self.cur.execute('SELECT * FROM product_types').fetchall()]
+        """
+
+        return self.cur.execute(
+            f'SELECT id FROM {self.table_name} WHERE title={category}'
+        ).fetchone()
+
+    def getCategoryById(self, id):
+        return self.cur.execute(
+            f'SELECT title FROM {self.table_name} WHERE id={id}'
+        ).fetchone()[0]
 
 
 class ShoppingCartTable(Database):
@@ -187,7 +230,7 @@ class ShoppingCartTable(Database):
         Constructor method
         """
 
-        super().__init__('shopping_cart')
+        super().__init__('shopping_cart', 'cart')
 
     def create(self) -> None:
         """
@@ -197,9 +240,13 @@ class ShoppingCartTable(Database):
         :rtype: None
         """
 
-        pass
+        self.cur.execute(f"""CREATE TABLE IF NOT EXISTS {self.table_name} (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+                            product_title TEXT NOT NULL,
+                            count INTEGER NOT NULL,
+                            price INTEGER NOT NULL)""")
 
-    def add(self, *args) -> None:
+    def add(self, product_title, count, price) -> None:
         """
         Adds one product to the cart table
 
@@ -207,20 +254,14 @@ class ShoppingCartTable(Database):
         :rtype: None
         """
 
-        pass
-
-    def getData(self) -> list:
-        """
-        Returns the entire list of products
-
-        :return: List of products in cart
-        :rtype: list
-        """
-
-        pass
+        self.cur.execute("""INSERT INTO cart (product_title, count, price)
+                                    VALUES(?, ?, ?)""", (product_title, count, price))
+        self.con.commit()
 
 
 products = ProductsTable()
 product_types = ProductTypesTable()
+cart = ShoppingCartTable()
 products.create()
 product_types.create()
+cart.create()
